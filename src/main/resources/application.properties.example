@@ -1,0 +1,28 @@
+## Datasource
+spring.datasource.url=jdbc:postgresql://localhost:5432/ppc_newsletter_project
+spring.datasource.username=postgres
+spring.datasource.password=sa
+## JPA
+spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.PostgreSQLDialect
+spring.jpa.properties.hibernate.format_sql=true
+spring.jpa.open-in-view=false
+spring.jpa.show-sql=true
+spring.jpa.hibernate.ddl-auto=update
+## Quartz
+spring.quartz.scheduler-name=newsletter_quartz_scheduler
+spring.quartz.job-store-type=jdbc
+spring.quartz.properties.org.quartz.jobStore.driverDelegateClass=org.quartz.impl.jdbcjobstore.PostgreSQLDelegate
+spring.quartz.jdbc.schema=classpath:/tables_postgres.sql
+spring.quartz.properties.org.quartz.jobStore.tablePrefix=quartz.QRTZ_
+spring.quartz.properties.org.quartz.scheduler.instanceName=NewsletterQuartzScheduler
+spring.quartz.properties.org.quartz.scheduler.instanceId=AUTO
+spring.quartz.properties.org.quartz.threadPool.class=org.quartz.simpl.SimpleThreadPool
+spring.quartz.properties.org.quartz.threadPool.threadCount=25
+spring.quartz.properties.org.quartz.threadPool.threadPriority=5
+spring.quartz.properties.org.quartz.jobStore.isClustered=true
+spring.quartz.properties.org.quartz.jobStore.clusterCheckinInterval=20000
+spring.quartz.properties.org.quartz.jobStore.misfireThreshold=60000
+spring.quartz.jdbc.initialize-schema=never
+##
+server.port=8080
+server.error.include-message=always
