@@ -1,28 +1,27 @@
 package ro.unibuc.fmi.ppcnewsletterproject.model;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
-import javax.persistence.Entity;
-import javax.persistence.Table;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Column;
-import javax.persistence.OneToMany;
-import java.util.ArrayList;
-import java.util.List;
+import javax.persistence.*;
+import java.time.LocalDateTime;
 
-@NoArgsConstructor
 @Getter
 @Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
+@EqualsAndHashCode
+@ToString
 @Entity
 @Table(name = "accounts")
-public class Account
-{
+public class Account {
+
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id", nullable = false)
+    @EqualsAndHashCode.Exclude
     private Long id;
 
     @Column(nullable = false)
@@ -34,6 +33,9 @@ public class Account
     @Column(nullable = false, unique = true)
     private String email;
 
-    @OneToMany(mappedBy = "account")
-    private List<AccountNewsletter> newsletters = new ArrayList<>();
+    @CreationTimestamp
+    private LocalDateTime insertedDate;
+
+    @UpdateTimestamp
+    private LocalDateTime updatedDate;
 }

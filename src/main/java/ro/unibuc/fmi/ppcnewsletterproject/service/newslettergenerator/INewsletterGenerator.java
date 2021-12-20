@@ -4,7 +4,6 @@ import ro.unibuc.fmi.ppcnewsletterproject.exception.GenerateEmailException;
 
 import java.io.IOException;
 
-public interface INewsletterGenerator
-{
+public interface INewsletterGenerator {
     String generateRandom() throws GenerateEmailException, IOException;
 }
