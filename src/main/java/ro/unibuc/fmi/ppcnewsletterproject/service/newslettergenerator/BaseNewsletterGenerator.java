@@ -19,6 +19,7 @@ public abstract class BaseNewsletterGenerator {
     }
 
     abstract protected Path getTemplatePath() throws IOException;
+
     abstract protected Map<String, String> getTemplateParameters() throws GenerateEmailException;
 
 //    private static final STGroup templates = new STGroup('$', '$');

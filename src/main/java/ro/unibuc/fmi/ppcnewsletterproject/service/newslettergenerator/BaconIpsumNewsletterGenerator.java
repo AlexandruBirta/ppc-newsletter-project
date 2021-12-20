@@ -3,8 +3,8 @@ package ro.unibuc.fmi.ppcnewsletterproject.service.newslettergenerator;
 import ro.unibuc.fmi.ppcnewsletterproject.exception.GenerateEmailException;
 import ro.unibuc.fmi.ppcnewsletterproject.model.Account;
 
-import java.io.IOException;
 import java.io.File;
+import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.http.HttpClient;
@@ -16,8 +16,7 @@ import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.Map;
 
-public class BaconIpsumNewsletterGenerator extends BaseNewsletterGenerator implements INewsletterGenerator
-{
+public class BaconIpsumNewsletterGenerator extends BaseNewsletterGenerator implements INewsletterGenerator {
     public BaconIpsumNewsletterGenerator(Account account) {
         super(account);
     }

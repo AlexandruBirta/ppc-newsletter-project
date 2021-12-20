@@ -1,39 +1,85 @@
 package ro.unibuc.fmi.ppcnewsletterproject.model;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonValue;
+import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
-import javax.persistence.Entity;
-import javax.persistence.Table;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Column;
-import javax.persistence.Enumerated;
-import javax.persistence.EnumType;
-import javax.persistence.OneToMany;
-import java.util.ArrayList;
-import java.util.List;
+import javax.persistence.*;
+import java.time.LocalDateTime;
 
-@NoArgsConstructor
 @Getter
 @Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
+@EqualsAndHashCode
+@ToString
 @Entity
 @Table(name = "newsletters")
-public class Newsletter
-{
+public class Newsletter {
+
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id", nullable = false)
+    @EqualsAndHashCode.Exclude
     private Long id;
 
     @Column(nullable = false)
     private String name;
 
     @Column(nullable = false)
-    @Enumerated(EnumType.ORDINAL)
+    @Enumerated(EnumType.STRING)
     private NewsletterType type;
 
-    @OneToMany(mappedBy = "newsletter")
-    private List<AccountNewsletter> accounts = new ArrayList<>();
+    // cron job syntax
+    @Column(nullable = false)
+    private String time;
+
+    @ToString.Exclude
+    @JoinColumn(
+            name = "account_id",
+            referencedColumnName = "id"
+    )
+    @ManyToOne(
+            targetEntity = Account.class,
+            fetch = FetchType.EAGER
+    )
+    private Account account;
+
+    @CreationTimestamp
+    private LocalDateTime insertedDate;
+
+    @UpdateTimestamp
+    private LocalDateTime updatedDate;
+
+    @Getter
+    public enum NewsletterType {
+        WIKIPEDIA_ARTICLE("wikipediaArticle"),
+        BACON_IPSUM("baconIpsum"),
+        CAT_PHOTO("catPhoto");
+
+        private String value;
+
+        NewsletterType(String value) {
+            this.value = value;
+        }
+
+        @Override
+        @JsonValue
+        public String toString() {
+            return String.valueOf(value);
+        }
+
+        @JsonCreator
+        public static NewsletterType fromValue(String text) {
+            for (NewsletterType b : NewsletterType.values()) {
+                if (String.valueOf(b.value).equals(text)) {
+                    return b;
+                }
+            }
+            return null;
+        }
+    }
 }
