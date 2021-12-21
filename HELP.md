@@ -2,7 +2,7 @@
 
 The following was discovered as part of building this project:
 
-* The original package name 'ro.unibuc.fmi.ppc-newsletter-project' is invalid and this project uses '
+* The original package name 'ro.unibuc.fmi.ppc-accountNewsletter-project' is invalid and this project uses '
   ro.unibuc.fmi.ppcnewsletterproject' instead.
 
 # Getting Started

@@ -9,7 +9,7 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>ro.unibuc.fmi</groupId>
-    <artifactId>ppc-newsletter-project</artifactId>
+    <artifactId>ppc-accountNewsletter-project</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>NewsletterProject</name>
     <description>Newsletter service based on the theme of scheduling and load balancing algorithms</description>

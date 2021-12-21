@@ -7,9 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.quartz.QuartzJobBean;
 import ro.unibuc.fmi.ppcnewsletterproject.exception.ApiException;
 import ro.unibuc.fmi.ppcnewsletterproject.exception.ExceptionStatus;
+import ro.unibuc.fmi.ppcnewsletterproject.model.AccountNewsletter;
 import ro.unibuc.fmi.ppcnewsletterproject.model.KafkaPayload;
-import ro.unibuc.fmi.ppcnewsletterproject.model.Newsletter;
-import ro.unibuc.fmi.ppcnewsletterproject.repository.NewsletterRepository;
+import ro.unibuc.fmi.ppcnewsletterproject.repository.AccountNewsletterRepository;
 
 import javax.transaction.Transactional;
 
@@ -17,12 +17,12 @@ import javax.transaction.Transactional;
 public class ProcessNewsletterJob extends QuartzJobBean {
 
     private final QuartzService quartzService;
-    private final NewsletterRepository newsletterRepository;
+    private final AccountNewsletterRepository accountNewsletterRepository;
 
     @Autowired
-    public ProcessNewsletterJob(QuartzService quartzService, NewsletterRepository newsletterRepository) {
+    public ProcessNewsletterJob(QuartzService quartzService, AccountNewsletterRepository accountNewsletterRepository) {
         this.quartzService = quartzService;
-        this.newsletterRepository = newsletterRepository;
+        this.accountNewsletterRepository = accountNewsletterRepository;
     }
 
     @Override
@@ -32,20 +32,19 @@ public class ProcessNewsletterJob extends QuartzJobBean {
         try {
             String jobName = jobExecutionContext.getJobDetail().getKey().getName();
             String schedulerId = jobExecutionContext.getScheduler().getSchedulerInstanceId();
-            Long newsletterId = Long.parseLong(jobExecutionContext.getTrigger().getKey().getName());
+            Long accountNewsletterTriggerKey = Long.parseLong(jobExecutionContext.getTrigger().getKey().getName());
 
-            Newsletter newsletter = newsletterRepository.findById(newsletterId).orElseThrow(
-                    () -> new ApiException(ExceptionStatus.NEWSLETTER_NOT_FOUND, String.valueOf(newsletterId)));
+            AccountNewsletter accountNewsletter = accountNewsletterRepository.findById(accountNewsletterTriggerKey).orElseThrow(
+                    () -> new ApiException(ExceptionStatus.ACCOUNT_NEWSLETTER_NOT_FOUND, String.valueOf(accountNewsletterTriggerKey)));
 
             KafkaPayload kafkaPayload = KafkaPayload.builder()
-                    .newsletter(newsletter)
-                    .account(newsletter.getAccount())
+                    .accountNewsletter(accountNewsletter)
                     .build();
 
             log.warn(kafkaPayload + " should be sent to kafka!");
 //          kafKaProducerService.sendKafkaPayload(kafkaPayload);
 
-            log.info("Executed job '" + jobName + "' fired from trigger '" + newsletterId + "' by scheduler with id '" + schedulerId + "'.");
+            log.info("Executed job '" + jobName + "' fired from trigger '" + accountNewsletterTriggerKey + "' by scheduler with id '" + schedulerId + "'.");
 
         } catch (ApiException e) {
             log.error(e.getErrorMessage());

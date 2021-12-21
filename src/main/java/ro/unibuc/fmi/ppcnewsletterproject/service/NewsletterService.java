@@ -1,6 +1,7 @@
 package ro.unibuc.fmi.ppcnewsletterproject.service;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ro.unibuc.fmi.ppcnewsletterproject.exception.ApiException;
 import ro.unibuc.fmi.ppcnewsletterproject.exception.ExceptionStatus;
@@ -15,7 +16,7 @@ public class NewsletterService {
 
     private final NewsletterRepository newsletterRepository;
 
-
+    @Autowired
     public NewsletterService(NewsletterRepository newsletterRepository) {
         this.newsletterRepository = newsletterRepository;
     }
@@ -37,7 +38,7 @@ public class NewsletterService {
         List<Newsletter> newsletterList = newsletterRepository.findAll();
 
         for (Newsletter newsletterEntity : newsletterList) {
-            if (newsletter.getType().equals(newsletterEntity.getType()) && newsletter.getName().equals(newsletterEntity.getName()) && newsletter.getAccount().getId().equals(newsletterEntity.getAccount().getId())) {
+            if (newsletter.getType().equals(newsletterEntity.getType()) && newsletter.getName().equals(newsletterEntity.getName())) {
                 throw new ApiException(ExceptionStatus.NEWSLETTER_ALREADY_EXISTS, String.valueOf(newsletterEntity.getId()));
             }
         }

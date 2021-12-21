@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import ro.unibuc.fmi.ppcnewsletterproject.exception.ApiException;
 import ro.unibuc.fmi.ppcnewsletterproject.exception.ExceptionStatus;
 import ro.unibuc.fmi.ppcnewsletterproject.model.Account;
+import ro.unibuc.fmi.ppcnewsletterproject.model.AccountDTO;
 import ro.unibuc.fmi.ppcnewsletterproject.repository.AccountRepository;
 
 import java.util.List;
@@ -26,7 +27,7 @@ public class AccountService {
                 () -> new ApiException(ExceptionStatus.ACCOUNT_NOT_FOUND, String.valueOf(accountId)));
     }
 
-    public void createAccount(Account account) {
+    public Account createAccount(AccountDTO account) {
 
         List<Account> accountList = accountRepository.findAll();
 
@@ -36,8 +37,15 @@ public class AccountService {
             }
         }
 
-        accountRepository.save(account);
-        log.info("Created account " + account);
+        Account accountEntity = Account.builder()
+                .firstName(account.getFirstName())
+                .lastName(account.getLastName())
+                .email(account.getEmail())
+                .build();
+
+        accountRepository.save(accountEntity);
+        log.info("Created account " + accountEntity);
+        return accountEntity;
     }
 
     public void deleteAccount(Long accountId) {
