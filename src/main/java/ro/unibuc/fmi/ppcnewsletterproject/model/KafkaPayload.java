@@ -9,7 +9,5 @@ import lombok.*;
 @EqualsAndHashCode
 public class KafkaPayload {
 
-    private Account account;
-
-    private Newsletter newsletter;
+    private AccountNewsletter accountNewsletter;
 }

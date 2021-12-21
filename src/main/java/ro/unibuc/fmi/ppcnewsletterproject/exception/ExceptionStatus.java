@@ -14,7 +14,11 @@ public enum ExceptionStatus {
 
     NEWSLETTER_ALREADY_EXISTS("Newsletter with id '%s' already exists!", HttpStatus.BAD_REQUEST),
 
-    INVALID_NEWSLETTER_TYPE("Newsletter of type '%s' not found!", HttpStatus.NOT_FOUND);
+    INVALID_NEWSLETTER_TYPE("Newsletter of type '%s' not found!", HttpStatus.NOT_FOUND),
+
+    ACCOUNT_NEWSLETTER_NOT_FOUND("Account newsletter with id '%s' not found!", HttpStatus.NOT_FOUND),
+
+    ACCOUNT_NEWSLETTER_ALREADY_EXISTS("Account newsletter with id '%s' already exists!", HttpStatus.BAD_REQUEST);
 
     private final String value;
     private final HttpStatus httpStatus;

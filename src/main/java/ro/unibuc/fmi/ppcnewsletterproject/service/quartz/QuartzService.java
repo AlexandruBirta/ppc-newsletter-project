@@ -4,11 +4,12 @@ import lombok.extern.slf4j.Slf4j;
 import org.quartz.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import ro.unibuc.fmi.ppcnewsletterproject.model.Newsletter;
+import ro.unibuc.fmi.ppcnewsletterproject.model.AccountNewsletter;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 
+import static org.quartz.CronScheduleBuilder.cronSchedule;
 import static org.quartz.JobBuilder.newJob;
 import static org.quartz.TriggerBuilder.newTrigger;
 
@@ -56,24 +57,22 @@ public class QuartzService {
         }
     }
 
-    public void addTrigger(Newsletter newsletter) {
+    public void addTrigger(AccountNewsletter accountNewsletter) {
 
         try {
-            String triggerName = String.valueOf(newsletter.getId());
-            TriggerKey newsletterTriggerKey = new TriggerKey(triggerName, NEWSLETTER_TRIGGER_GROUP);
+            String triggerName = String.valueOf(accountNewsletter.getId());
+            TriggerKey accountNewsletterTriggerKey = new TriggerKey(triggerName, NEWSLETTER_TRIGGER_GROUP);
 
-            if (this.scheduler.getTrigger(newsletterTriggerKey) == null) {
+            if (this.scheduler.getTrigger(accountNewsletterTriggerKey) == null) {
 
                 Trigger trigger = newTrigger()
-                        .withIdentity(newsletterTriggerKey)
+                        .withIdentity(accountNewsletterTriggerKey)
                         .forJob(NEWSLETTER_JOB_KEY)
-                        .withSchedule(CalendarIntervalScheduleBuilder.calendarIntervalSchedule()
-                                .withIntervalInSeconds(10)
-                        )
+                        .withSchedule(cronSchedule(accountNewsletter.getNewsletter().getTime()))
                         .build();
 
                 this.scheduler.scheduleJob(trigger);
-                log.info("Trigger for newsletter with id '" + newsletter.getId() + "' added.");
+                log.info("Trigger for newsletter with id '" + accountNewsletter.getId() + "' added.");
             }
 
         } catch (SchedulerException e) {
@@ -82,14 +81,14 @@ public class QuartzService {
 
     }
 
-    public void deleteTrigger(Long newsletterId) {
+    public void deleteTrigger(Long accountNewsletterId) {
 
         try {
-            String triggerName = newsletterId.toString();
-            TriggerKey newsletterTriggerKey = new TriggerKey(triggerName, NEWSLETTER_TRIGGER_GROUP);
+            String triggerName = accountNewsletterId.toString();
+            TriggerKey accountNewsletterTriggerKey = new TriggerKey(triggerName, NEWSLETTER_TRIGGER_GROUP);
 
-            this.scheduler.unscheduleJob(newsletterTriggerKey);
-            log.info("Trigger for newsletter with id '" + newsletterId + "' deleted.");
+            this.scheduler.unscheduleJob(accountNewsletterTriggerKey);
+            log.info("Trigger for newsletter with id '" + accountNewsletterId + "' deleted.");
 
         } catch (SchedulerException e) {
             log.error(String.valueOf(e));
@@ -97,22 +96,20 @@ public class QuartzService {
 
     }
 
-    public void updateTrigger(Long newsletterId) {
+    public void updateTrigger(Long accountNewsletterId, String newTime) {
 
         try {
-            String triggerName = newsletterId.toString();
-            TriggerKey newsletterTriggerKey = new TriggerKey(triggerName, NEWSLETTER_TRIGGER_GROUP);
+            String triggerName = accountNewsletterId.toString();
+            TriggerKey accountNewsletterTriggerKey = new TriggerKey(triggerName, NEWSLETTER_TRIGGER_GROUP);
 
             Trigger updatedTrigger = newTrigger()
-                    .withIdentity(newsletterTriggerKey)
+                    .withIdentity(accountNewsletterTriggerKey)
                     .forJob(NEWSLETTER_JOB_KEY)
-                    .withSchedule(CalendarIntervalScheduleBuilder.calendarIntervalSchedule()
-                            .withIntervalInSeconds(5)
-                    )
+                    .withSchedule(cronSchedule(newTime))
                     .build();
 
-            this.scheduler.rescheduleJob(newsletterTriggerKey, updatedTrigger);
-            log.info("Trigger for newsletter with id '" + newsletterId + "' updated.");
+            this.scheduler.rescheduleJob(accountNewsletterTriggerKey, updatedTrigger);
+            log.info("Trigger for newsletter with id '" + accountNewsletterId + "' updated.");
 
         } catch (SchedulerException e) {
             log.error(String.valueOf(e));

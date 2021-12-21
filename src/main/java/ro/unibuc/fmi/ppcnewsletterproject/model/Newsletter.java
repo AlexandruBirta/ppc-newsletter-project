@@ -37,17 +37,6 @@ public class Newsletter {
     @Column(nullable = false)
     private String time;
 
-    @ToString.Exclude
-    @JoinColumn(
-            name = "account_id",
-            referencedColumnName = "id"
-    )
-    @ManyToOne(
-            targetEntity = Account.class,
-            fetch = FetchType.EAGER
-    )
-    private Account account;
-
     @CreationTimestamp
     private LocalDateTime insertedDate;
 
