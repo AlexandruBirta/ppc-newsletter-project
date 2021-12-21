@@ -24,7 +24,7 @@ public class AccountNewsletterService {
     public void createAccountNewsletter(AccountNewsletter accountNewsletter) {
         List<AccountNewsletter> accountNewsletterList = accountNewsletterRepository.findAll();
 
-        for(AccountNewsletter accountNewsletterEntity : accountNewsletterList) {
+        for (AccountNewsletter accountNewsletterEntity : accountNewsletterList) {
             if (accountNewsletter.getAccount().equals(accountNewsletterEntity.getAccount()) && accountNewsletter.getNewsletter().equals(accountNewsletterEntity.getNewsletter())) {
                 throw new ApiException(ExceptionStatus.ACCOUNT_NEWSLETTER_ALREADY_EXISTS, String.valueOf(accountNewsletterEntity.getId()));
             }
