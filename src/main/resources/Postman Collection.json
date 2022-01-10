@@ -1,0 +1,124 @@
+{
+	"info": {
+		"_postman_id": "6cad471a-1d89-493e-a68a-9d87dcf01e9b",
+		"name": "PPC Newsletter Project",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Add Newsletter",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\":\"Bacon Ipsum\",\r\n    \"type\":\"baconIpsum\",\r\n    \"time\": \"0 * * * * ?\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://{{host}}/{{apiEndpoint}}/newsletters",
+					"protocol": "http",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"{{apiEndpoint}}",
+						"newsletters"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Add Newsletter Subscription",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"pm.globals.set(\"newsletterType\", \"baconIpsum\");"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.globals.unset(\"newsletterType\");"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"firstName\":\"Ion\",\r\n    \"lastName\":\"Popescu\",\r\n    \"email\":\"Ion.Popescu@email.com\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://{{host}}/{{apiEndpoint}}/newsletters/{{newsletterType}}",
+					"protocol": "http",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"{{apiEndpoint}}",
+						"newsletters",
+						"{{newsletterType}}"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
