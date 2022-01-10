@@ -14,7 +14,7 @@ import ro.unibuc.fmi.ppcnewsletterproject.service.quartz.QuartzService;
 import javax.transaction.Transactional;
 
 @RestController
-@RequestMapping(path = "/v1")
+@RequestMapping(path = "/v1", method = {RequestMethod.POST, RequestMethod.GET})
 public class NewsletterQuartzController {
 
     private final NewsletterService newsletterService;
