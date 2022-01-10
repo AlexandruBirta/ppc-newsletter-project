@@ -5,6 +5,9 @@ target/
 !**/src/test/**/target/
 /logs/
 /src/main/resources/application.properties
+/node/
+/node_modules/
+/src/main/resources/static/built/
 
 ### STS ###
 .apt_generated
@@ -14,6 +17,7 @@ target/
 .settings
 .springBeans
 .sts4-cache
+package-lock.json
 
 ### IntelliJ IDEA ###
 .idea
