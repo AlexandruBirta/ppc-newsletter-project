@@ -20,9 +20,8 @@ public abstract class BaseNewsletterGenerator {
 
     abstract protected Path getTemplatePath() throws IOException;
 
-    abstract protected Map<String, String> getTemplateParameters() throws GenerateEmailException;
+    abstract protected Map<String, String> generateContent() throws GenerateEmailException;
 
-//    private static final STGroup templates = new STGroup('$', '$');
 
     protected String getTemplate() throws IOException {
         return new String(Files.readAllBytes(getTemplatePath()));
@@ -33,19 +32,14 @@ public abstract class BaseNewsletterGenerator {
         CompiledST compiledTemplate = templates.defineTemplate("template", getTemplate());
         compiledTemplate.hasFormalArgs = false;
 
-//        if (templates.lookupTemplate("bla") == null) {
-//            CompiledST compiledTemplate = templates.defineTemplate("bla", getTemplate());
-//            compiledTemplate.hasFormalArgs = false;
-//        }
-
         ST template = templates.getInstanceOf("template");
 
-        getTemplateParameters().forEach(template::add);
+        generateContent().forEach(template::add);
 
         return template.render();
     }
 
-    public String generateRandom() throws GenerateEmailException, IOException {
+    public String getEmailHTML() throws GenerateEmailException, IOException {
         return renderTemplate();
     }
 }
