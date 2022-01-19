@@ -20,62 +20,132 @@ class App extends React.Component{
             msgType:"",
         }
     }
+    fetchNewsletter(newsletterType)
+    {
+
+    }
+    setMessage(errorMessage)
+    {
+        //alert("error " + errorMessage)
+        if(errorMessage)
+        {
+            this.setState({
+                msgData:errorMessage,
+                msgType: "alert-danger"
+            })
+        }
+        else{
+            //alert("Subscribed");
+            this.setState({
+                class: " done",
+                msgData: "Subscribed!",
+                msgType: "alert-success"
+            })
+        }
+    }
+
     handleClick(e)
     {
         //alert("subscribing2" + " " + this.state.firstName + " " + this.state.lastName + " " + this.state.email);
         //e.preventDefault();
-        var newsletterType;
-        if(this.state.wiki)
-            newsletterType="wikipediaArticle";
-        else if(this.state.bacon)
-            newsletterType="baconIpsum";
-        else if(this.state.cats)
-            newsletterType="catPhoto"
-        else{
+
+        if(!this.state.wiki && !this.state.bacon && !this.state.cats)
+        {
             this.setState({
                 msgData:"Please select at least one subscription",
                 msgType: "alert-danger"
             })
             return;
         }
-        this.setState({
-            msgData:"",
-            msgType: "alert-success"
-        })
-
-
-        fetch(`http://localhost:8080/v1/newsletters/${newsletterType}`,{
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-                firstName:this.state.firstName,
-                lastName:this.state.lastName,
-                email:this.state.email,
+        if(!this.state.firstName || !this.state.lastName || !this.state.email)
+        {
+            this.setState({
+                msgData:"Please fill all fields",
+                msgType: "alert-danger"
             })
-        })
-            .then(res => res.json())
-            .then(result => {
-                if(result.errorMessage)
-                {
-                    this.setState({
-                        msgData:result.errorMessage,
-                        msgType: "alert-danger"
-                    })
-                }
-                else{
-                    alert("Subscribed");
-                    this.setState({
-                        class: " done",
-                    })
-                }
-
+            return;
+        }
+        var newsletterType;
+        var errorMessage = "";
+        if(this.state.wiki)
+        {
+            newsletterType="wikipediaArticle";
+            fetch(`http://localhost:8080/v1/newsletters/${newsletterType}`,{
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    firstName:this.state.firstName,
+                    lastName:this.state.lastName,
+                    email:this.state.email,
+                })
             })
+                .then(res => res.json())
+                .then(result => {
+                    if(result.errorMessage)
+                    {
+                        errorMessage = errorMessage + `\n` + result.errorMessage;
+                    }
+                    if(!this.state.bacon && !this.state.cat)
+                    {
+                        this.setMessage(errorMessage);
+                    }
+                })
+        }
 
 
+        if(this.state.bacon)
+        {
+            newsletterType="baconIpsum";
+            fetch(`http://localhost:8080/v1/newsletters/${newsletterType}`,{
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    firstName:this.state.firstName,
+                    lastName:this.state.lastName,
+                    email:this.state.email,
+                })
+            })
+                .then(res => res.json())
+                .then(result => {
+                    if(result.errorMessage)
+                    {
+                        errorMessage = errorMessage + "\n" + result.errorMessage;
+                    }
+                    if(!this.state.cat)
+                    {
+                        this.setMessage(errorMessage);
+                    }
+                })
+        }
+        if(this.state.cats)
+        {
+            newsletterType="catPhoto";
+            fetch(`http://localhost:8080/v1/newsletters/${newsletterType}`,{
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    firstName:this.state.firstName,
+                    lastName:this.state.lastName,
+                    email:this.state.email,
+                })
+            })
+                .then(res => res.json())
+                .then(result => {
+                    if(result.errorMessage)
+                    {
+                        errorMessage = errorMessage + "\n" +result.errorMessage;
+                    }
+                    this.setMessage(errorMessage);
+
+                })
+        }
     }
-
     wikiChanged(e)
     {
         this.setState({
@@ -115,7 +185,7 @@ class App extends React.Component{
     render(){
         var message;
         if(this.state.msgData != "")
-            message=<div className={`alert fade show d-flex ${this.state.msgType}`}>{this.state.msgData}</div>
+            message=<div className={`message alert fade show d-flex ${this.state.msgType}`}>{this.state.msgData}</div>
         var newsletter = <div className="firstContainer">
             <div>
                 {/*<div className="card" style={{width:"18rem"}}>*/}
@@ -127,7 +197,7 @@ class App extends React.Component{
                 {/*</div>*/}
             </div>
             <div className="container allign-self-center">
-                <div className="content">
+                <div className="content container-fluid d-flex align-items-center justify-content-center">
                     {message}
                     <form className={"subscription" + this.state.class}>
                         <div className="form-group"><input className="add-firstName form-control" type="text"
