@@ -18,8 +18,11 @@
     "@babel/preset-react": "^7.0.0",
     "babel-loader": "^8.0.2",
     "babel-plugin-css-modules-transform": "^1.6.2",
+    "copy-webpack-plugin": "^6.4.1",
     "css-loader": "^5.2.7",
+    "file-loader": "^6.2.0",
     "style-loader": "^2.0.0",
+    "url-loader": "^4.1.1",
     "webpack": "^4.29.6",
     "webpack-cli": "^3.1.0"
   }
