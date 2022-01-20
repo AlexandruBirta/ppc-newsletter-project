@@ -7,6 +7,8 @@ import lombok.*;
 @Builder
 @ToString
 @EqualsAndHashCode
+@NoArgsConstructor
+@AllArgsConstructor
 public class KafkaPayload {
 
     private AccountNewsletter accountNewsletter;
