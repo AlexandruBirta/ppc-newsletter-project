@@ -1,5 +1,5 @@
 var path = require('path');
-
+const CopyPlugin = require("copy-webpack-plugin");
 module.exports = {
     entry: './src/main/js/app.js',
     devtool: 'sourcemaps',
@@ -10,6 +10,14 @@ module.exports = {
         filename: './src/main/resources/static/built/bundle.js',
 
     },
+    plugins: [
+        new CopyPlugin({
+            patterns: [
+                { from: "src/main/resources/img/", to: "src/main/resources/static/built/img/" },
+
+            ],
+        }),
+    ],
     module: {
         rules: [
             {
@@ -41,6 +49,14 @@ module.exports = {
                 use: ["style-loader", "css-loader"],
                 exclude: /\.module\.css$/,
             },
+            {
+                test: /\.(png|svg|jpg|gif)$/,
+                loader: 'file-loader',
+                options: {
+                    publicPath: 'built'
+                }
+            },
+            { test: /\.(png|jpg)$/, loader: 'url-loader?limit=8192' },
         ],
 
     }

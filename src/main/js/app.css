@@ -1,17 +1,36 @@
 
+
+.body
+{
+    background: linear-gradient(
+            119.36deg
+            , #eceef5 0%, #e3e5fb 100%);
+}
+
 .container {
     width: fit-content;
     margin-right: auto;
     margin-left: auto;
     margin-top: 30vh;
-
     align-self: center;
+    /*box-shadow: 2px 2px 20px rgba(0,0,0,0.2);*/
 }
 
 .subscription {
     display: flex;
     flex-direction: column;
+    width: 100%;
 }
+
+.card {
+    display: flex;
+    flex-direction: row;
+}
+
+.message {
+    white-space: pre-wrap;
+}
+
 
 /*.container {*/
 /*    position: absolute;*/
