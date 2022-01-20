@@ -18,7 +18,9 @@ public enum ExceptionStatus {
 
     ACCOUNT_NEWSLETTER_NOT_FOUND("Account newsletter with id '%s' not found!", HttpStatus.NOT_FOUND),
 
-    ACCOUNT_NEWSLETTER_ALREADY_EXISTS("Account newsletter with id '%s' already exists!", HttpStatus.BAD_REQUEST);
+    ACCOUNT_NEWSLETTER_ALREADY_EXISTS("Account newsletter with id '%s' already exists!", HttpStatus.BAD_REQUEST),
+
+    UNEXPECTED_EXCEPTION("Application encountered an '%s' exception unexpectedly.", HttpStatus.INTERNAL_SERVER_ERROR);
 
     private final String value;
     private final HttpStatus httpStatus;
