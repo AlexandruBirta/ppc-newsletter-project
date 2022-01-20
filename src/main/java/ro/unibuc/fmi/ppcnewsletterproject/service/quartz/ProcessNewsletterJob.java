@@ -46,9 +46,7 @@ public class ProcessNewsletterJob extends QuartzJobBean {
                     .accountNewsletter(accountNewsletter)
                     .build();
 
-            log.warn(kafkaPayload + " should be sent to kafka!");
             kafkaProducerService.sendKafkaPayload(kafkaPayload);
-
             log.info("Executed job '" + jobName + "' fired from trigger '" + accountNewsletterTriggerKey + "' by scheduler with id '" + schedulerId + "'.");
 
         } catch (ApiException e) {
