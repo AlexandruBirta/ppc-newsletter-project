@@ -24,7 +24,6 @@ public class NewsletterGeneratorService {
         try {
             String content = newsletterGeneratorFactory.make(accountNewsletter).getEmailHTML();
             //TODO IMPLEMENT SEND EMAIL SERVICE
-            log.warn(content);
         } catch (Exception e) {
             throw new ApiException(ExceptionStatus.UNEXPECTED_EXCEPTION, e.getClass().getSimpleName());
         }

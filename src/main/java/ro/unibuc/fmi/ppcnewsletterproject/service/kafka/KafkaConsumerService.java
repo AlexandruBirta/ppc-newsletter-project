@@ -21,12 +21,14 @@ import java.util.List;
 public class KafkaConsumerService {
 
     private final Integer numberOfThreads;
+    private final Integer taskMultiplier;
     private final NewsletterGeneratorService newsletterGeneratorService;
     private final List<AccountNewsletter> accountNewsletterList = new ArrayList<>();
 
     @Autowired
-    public KafkaConsumerService(@Value("${newsletter.loadbalancing.threads}") Integer numberOfThreads, NewsletterGeneratorService newsletterGeneratorService) {
+    public KafkaConsumerService(@Value("${newsletter.loadbalancing.threads}") Integer numberOfThreads, @Value("${newsletter.loadbalancing.task.multiplier}") Integer taskMultiplier, NewsletterGeneratorService newsletterGeneratorService) {
         this.numberOfThreads = numberOfThreads;
+        this.taskMultiplier = taskMultiplier;
         this.newsletterGeneratorService = newsletterGeneratorService;
     }
 
@@ -42,15 +44,18 @@ public class KafkaConsumerService {
 
         log.info("Consumed payload '{}' from topic {}, partition {} and offset {} with receivedTimestamp {}.", message, topic, partition, offset, receivedTimestamp);
 
-        if(accountNewsletterList.size() < numberOfThreads) {
+        int numberOfTasks = numberOfThreads * taskMultiplier;
+
+        if (accountNewsletterList.size() < numberOfTasks) {
             accountNewsletterList.add(message.getAccountNewsletter());
         }
 
-        if(accountNewsletterList.size() == numberOfThreads) {
-            log.warn(accountNewsletterList.toString() + " Newsletter list from consumer");
+        if (accountNewsletterList.size() == numberOfTasks) {
+
             LoadBalancer loadBalancer = new LoadBalancer(numberOfThreads, accountNewsletterList, newsletterGeneratorService);
             loadBalancer.startRoundRobin();
             accountNewsletterList.clear();
+
         }
 
     }
