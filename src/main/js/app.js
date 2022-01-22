@@ -1,40 +1,36 @@
 const React = require('react');
 const ReactDOM = require('react-dom');
-//const client = require('./client');
-import styles from "./app.css"
-import img from "../resources/img/card.png"
 
-class App extends React.Component{
-    constructor(props)
-    {
+//const client = require('./client');
+
+class App extends React.Component {
+    constructor(props) {
         super(props);
         this.state = {
             class: "",
             wiki: false,
-            bacon:false,
-            cats:false,
-            firstName:"",
-            lastName:"",
-            email:"",
-            msgData:"",
-            msgType:"",
+            bacon: false,
+            cats: false,
+            firstName: "",
+            lastName: "",
+            email: "",
+            msgData: "",
+            msgType: "",
         }
     }
-    fetchNewsletter(newsletterType)
-    {
+
+    fetchNewsletter(newsletterType) {
 
     }
-    setMessage(errorMessage)
-    {
+
+    setMessage(errorMessage) {
         //alert("error " + errorMessage)
-        if(errorMessage)
-        {
+        if (errorMessage) {
             this.setState({
-                msgData:errorMessage,
+                msgData: errorMessage,
                 msgType: "alert-danger"
             })
-        }
-        else{
+        } else {
             //alert("Subscribed");
             this.setState({
                 class: " done",
@@ -44,148 +40,137 @@ class App extends React.Component{
         }
     }
 
-    handleClick(e)
-    {
+    handleClick(e) {
         //alert("subscribing2" + " " + this.state.firstName + " " + this.state.lastName + " " + this.state.email);
         //e.preventDefault();
 
-        if(!this.state.wiki && !this.state.bacon && !this.state.cats)
-        {
+        if (!this.state.wiki && !this.state.bacon && !this.state.cats) {
             this.setState({
-                msgData:"Please select at least one subscription",
+                msgData: "Please select at least one subscription",
                 msgType: "alert-danger"
             })
             return;
         }
-        if(!this.state.firstName || !this.state.lastName || !this.state.email)
-        {
+        if (!this.state.firstName || !this.state.lastName || !this.state.email) {
             this.setState({
-                msgData:"Please fill all fields",
+                msgData: "Please fill all fields",
                 msgType: "alert-danger"
             })
             return;
         }
         var newsletterType;
         var errorMessage = "";
-        if(this.state.wiki)
-        {
-            newsletterType="wikipediaArticle";
-            fetch(`http://localhost:8080/v1/newsletters/${newsletterType}`,{
+        if (this.state.wiki) {
+            newsletterType = "wikipediaArticle";
+            fetch(`http://localhost:8080/v1/newsletters/${newsletterType}`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
                 },
                 body: JSON.stringify({
-                    firstName:this.state.firstName,
-                    lastName:this.state.lastName,
-                    email:this.state.email,
+                    firstName: this.state.firstName,
+                    lastName: this.state.lastName,
+                    email: this.state.email,
                 })
             })
                 .then(res => res.json())
                 .then(result => {
-                    if(result.errorMessage)
-                    {
+                    if (result.errorMessage) {
                         errorMessage = errorMessage + `\n` + result.errorMessage;
                     }
-                    if(!this.state.bacon && !this.state.cat)
-                    {
+                    if (!this.state.bacon && !this.state.cat) {
                         this.setMessage(errorMessage);
                     }
                 })
         }
 
 
-        if(this.state.bacon)
-        {
-            newsletterType="baconIpsum";
-            fetch(`http://localhost:8080/v1/newsletters/${newsletterType}`,{
+        if (this.state.bacon) {
+            newsletterType = "baconIpsum";
+            fetch(`http://localhost:8080/v1/newsletters/${newsletterType}`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
                 },
                 body: JSON.stringify({
-                    firstName:this.state.firstName,
-                    lastName:this.state.lastName,
-                    email:this.state.email,
+                    firstName: this.state.firstName,
+                    lastName: this.state.lastName,
+                    email: this.state.email,
                 })
             })
                 .then(res => res.json())
                 .then(result => {
-                    if(result.errorMessage)
-                    {
+                    if (result.errorMessage) {
                         errorMessage = errorMessage + "\n" + result.errorMessage;
                     }
-                    if(!this.state.cat)
-                    {
+                    if (!this.state.cat) {
                         this.setMessage(errorMessage);
                     }
                 })
         }
-        if(this.state.cats)
-        {
-            newsletterType="catPhoto";
-            fetch(`http://localhost:8080/v1/newsletters/${newsletterType}`,{
+        if (this.state.cats) {
+            newsletterType = "catPhoto";
+            fetch(`http://localhost:8080/v1/newsletters/${newsletterType}`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
                 },
                 body: JSON.stringify({
-                    firstName:this.state.firstName,
-                    lastName:this.state.lastName,
-                    email:this.state.email,
+                    firstName: this.state.firstName,
+                    lastName: this.state.lastName,
+                    email: this.state.email,
                 })
             })
                 .then(res => res.json())
                 .then(result => {
-                    if(result.errorMessage)
-                    {
-                        errorMessage = errorMessage + "\n" +result.errorMessage;
+                    if (result.errorMessage) {
+                        errorMessage = errorMessage + "\n" + result.errorMessage;
                     }
                     this.setMessage(errorMessage);
 
                 })
         }
     }
-    wikiChanged(e)
-    {
+
+    wikiChanged(e) {
         this.setState({
             wiki: e.target.checked
         })
     }
-    baconChanged(e)
-    {
+
+    baconChanged(e) {
         this.setState({
             bacon: e.target.checked
         })
     }
-    catsChanged(e)
-    {
+
+    catsChanged(e) {
         this.setState({
             cats: e.target.checked
         })
     }
-    onFirstNameChanged(e)
-    {
-        this.setState({firstName:e.target.value});
+
+    onFirstNameChanged(e) {
+        this.setState({firstName: e.target.value});
     }
-    onLastNameChanged(e)
-    {
-        this.setState({lastName:e.target.value});
+
+    onLastNameChanged(e) {
+        this.setState({lastName: e.target.value});
     }
-    onEmailChanged(e)
-    {
-        this.setState({email:e.target.value});
+
+    onEmailChanged(e) {
+        this.setState({email: e.target.value});
     }
-    click()
-    {
+
+    click() {
         alert(this.state.wiki + " " + this.state.bacon + " " + this.state.cats)
     }
 
 
-    render(){
+    render() {
         var message;
-        if(this.state.msgData != "")
-            message=<div className={`message alert fade show d-flex ${this.state.msgType}`}>{this.state.msgData}</div>
+        if (this.state.msgData != "")
+            message = <div className={`message alert fade show d-flex ${this.state.msgType}`}>{this.state.msgData}</div>
         var newsletter = <div className="firstContainer">
             <div>
                 {/*<div className="card" style={{width:"18rem"}}>*/}
@@ -237,7 +222,8 @@ class App extends React.Component{
         return newsletter;
     }
 }
+
 ReactDOM.render(
-    <App />,
+    <App/>,
     document.getElementById('react')
 )
