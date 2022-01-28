@@ -1,7 +1,6 @@
 package ro.unibuc.fmi.ppcnewsletterproject.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.core.env.Environment;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -45,7 +44,7 @@ public class NewsletterController {
         getJavaMailSender().send(msg);
     }
 
-    @Bean
+
     public JavaMailSender getJavaMailSender() {
         JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
         mailSender.setHost(environment.getProperty("spring.mail.host"));
