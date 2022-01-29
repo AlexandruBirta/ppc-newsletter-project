@@ -69,6 +69,8 @@ public class QuartzService {
                         .withIdentity(accountNewsletterTriggerKey)
                         .forJob(NEWSLETTER_JOB_KEY)
                         .withSchedule(cronSchedule(accountNewsletter.getNewsletter().getTime()))
+//                        .withSchedule(simpleSchedule().withIntervalInSeconds(1).repeatForever())
+                        .startNow()
                         .build();
 
                 this.scheduler.scheduleJob(trigger);

@@ -13,7 +13,7 @@ module.exports = {
     plugins: [
         new CopyPlugin({
             patterns: [
-                { from: "src/main/resources/img/", to: "src/main/resources/static/built/img/" },
+                {from: "src/main/resources/img/", to: "src/main/resources/static/built/img/"},
 
             ],
         }),
@@ -56,7 +56,7 @@ module.exports = {
                     publicPath: 'built'
                 }
             },
-            { test: /\.(png|jpg)$/, loader: 'url-loader?limit=8192' },
+            {test: /\.(png|jpg)$/, loader: 'url-loader?limit=8192'},
         ],
 
     }

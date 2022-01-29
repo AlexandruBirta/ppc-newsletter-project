@@ -71,11 +71,14 @@
             <version>1.12.0</version>
         </dependency>
 
+<<<<<<< HEAD
         <dependency>
             <groupId>org.apache.kafka</groupId>
             <artifactId>kafka-streams</artifactId>
             <version>3.0.0</version>
         </dependency>
+=======
+>>>>>>> 72ede1d11b0aed2e9e4baad690faf496c8146e27
     </dependencies>
 
     <build>
