@@ -3,20 +3,19 @@ package ro.unibuc.fmi.ppcnewsletterproject.service;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
-import org.springframework.mail.javamail.MimeMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 import ro.unibuc.fmi.ppcnewsletterproject.exception.ApiException;
 import ro.unibuc.fmi.ppcnewsletterproject.exception.ExceptionStatus;
 import ro.unibuc.fmi.ppcnewsletterproject.model.AccountNewsletter;
+import ro.unibuc.fmi.ppcnewsletterproject.service.newslettergenerator.EmailContent;
 import ro.unibuc.fmi.ppcnewsletterproject.service.newslettergenerator.NewsletterGeneratorFactory;
-import org.springframework.mail.SimpleMailMessage;
-import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.mail.javamail.JavaMailSenderImpl;
 
-import javax.mail.Message;
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
+import javax.mail.util.ByteArrayDataSource;
 import java.util.Objects;
 import java.util.Properties;
 
@@ -37,7 +36,7 @@ public class NewsletterGeneratorService {
 
         try {
 
-            String content = newsletterGeneratorFactory.make(accountNewsletter).getEmailHTML();
+            EmailContent content = newsletterGeneratorFactory.make(accountNewsletter).getEmailHTML();
             sendNewsletter(accountNewsletter, content);
 
         } catch (Exception e) {
@@ -46,7 +45,7 @@ public class NewsletterGeneratorService {
 
     }
 
-    public void sendNewsletter(AccountNewsletter accountNewsletter, String content) {
+    public void sendNewsletter(AccountNewsletter accountNewsletter, EmailContent content) {
 
         try {
 
@@ -56,7 +55,11 @@ public class NewsletterGeneratorService {
 
             helper.setTo(accountNewsletter.getAccount().getEmail());
             helper.setSubject("Hello " + accountNewsletter.getAccount().getFirstName() + " " + accountNewsletter.getAccount().getLastName() + "! Here is your " + accountNewsletter.getNewsletter().getName() + " newsletter!");
-            helper.setText(content, true);
+            helper.setText(content.getHtml(), true);
+
+            if (content.getAttachment() != null) {
+                helper.addInline(content.getAttachmentContentId(), new ByteArrayDataSource(content.getAttachment(), content.getMimeType()));
+            }
 
             getJavaMailSender().send(msg);
 
@@ -67,7 +70,6 @@ public class NewsletterGeneratorService {
 
 
     }
-
 
     public JavaMailSender getJavaMailSender() {
 
