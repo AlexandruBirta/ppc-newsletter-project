@@ -5,5 +5,5 @@ import ro.unibuc.fmi.ppcnewsletterproject.exception.GenerateEmailException;
 import java.io.IOException;
 
 public interface INewsletterGenerator {
-    String getEmailHTML() throws GenerateEmailException, IOException;
+    EmailContent getEmailHTML() throws GenerateEmailException, IOException;
 }

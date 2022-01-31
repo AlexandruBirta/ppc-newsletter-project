@@ -39,7 +39,10 @@ public abstract class BaseNewsletterGenerator {
         return template.render();
     }
 
-    public String getEmailHTML() throws GenerateEmailException, IOException {
-        return renderTemplate();
+    public EmailContent getEmailHTML() throws GenerateEmailException, IOException {
+        EmailContent content = new EmailContent();
+        content.setHtml(renderTemplate());
+
+        return content;
     }
 }
