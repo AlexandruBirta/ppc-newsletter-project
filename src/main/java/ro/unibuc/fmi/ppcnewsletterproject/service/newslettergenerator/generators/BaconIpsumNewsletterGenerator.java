@@ -49,7 +49,7 @@ public class BaconIpsumNewsletterGenerator extends BaseNewsletterGenerator imple
 
     private String retrieveRandomBacon() throws URISyntaxException, IOException, InterruptedException {
         HttpRequest request = HttpRequest
-                .newBuilder(new URI("https://baconipsum.com/api/?type=all-meat&format=text&sentences=3"))
+                .newBuilder(new URI("https://baconipsum.com/api/?type=all-meat&format=text&sentences=100"))
                 .GET()
                 .build();
 
