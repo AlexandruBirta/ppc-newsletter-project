@@ -11,6 +11,7 @@ import javax.annotation.PreDestroy;
 
 import static org.quartz.CronScheduleBuilder.cronSchedule;
 import static org.quartz.JobBuilder.newJob;
+import static org.quartz.SimpleScheduleBuilder.simpleSchedule;
 import static org.quartz.TriggerBuilder.newTrigger;
 
 @Slf4j
@@ -68,8 +69,8 @@ public class QuartzService {
                 Trigger trigger = newTrigger()
                         .withIdentity(accountNewsletterTriggerKey)
                         .forJob(NEWSLETTER_JOB_KEY)
-                        .withSchedule(cronSchedule(accountNewsletter.getNewsletter().getTime()))
-//                        .withSchedule(simpleSchedule().withIntervalInSeconds(1).repeatForever())
+//                        .withSchedule(cronSchedule(accountNewsletter.getNewsletter().getTime()))
+                        .withSchedule(simpleSchedule().withIntervalInSeconds(10).repeatForever())
                         .startNow()
                         .build();
 

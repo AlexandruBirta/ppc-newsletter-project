@@ -3,8 +3,6 @@
 }src/main/java/ro/unibuc/fmi/ppcnewsletterproject/service/newslettergenerator/generators/RandomArticleNewsletterGenerator.java,0\d\0d9a1840e48a75e8572b62f106ab695aa8ffd139
 ã
 [src/main/java/ro/unibuc/fmi/ppcnewsletterproject/controller/NewsletterQuartzController.java,8\e\8e91f07e3d66377aa11ba2be3819512bbe4f867b
-™
-zsrc/main/java/ro/unibuc/fmi/ppcnewsletterproject/service/newslettergenerator/generators/BaconIpsumNewsletterGenerator.java,3\1\3130014f22277d2200af34e0076bbc5627c95da2
 ®
 xsrc/main/java/ro/unibuc/fmi/ppcnewsletterproject/service/newslettergenerator/generators/CatPhotoNewsletterGenerator.java,c\0\c0d0cb11d0ac9fc8f726856118346d37090634eb
 :
@@ -20,3 +18,15 @@ lsrc/main/java/ro/unibuc/fmi/ppcnewsletterproject/service/newslettergenerator/Ne
 Vsrc/main/java/ro/unibuc/fmi/ppcnewsletterproject/service/AccountNewsletterService.java,1\d\1d9ae902c8a3506f0278c14fe82fb662d32540b3
 x
 Hsrc/main/java/ro/unibuc/fmi/ppcnewsletterproject/model/KafkaPayload.java,2\3\2304f6b7183f6f9e823116b6557462a76897cb50
+
+Osrc/main/java/ro/unibuc/fmi/ppcnewsletterproject/exception/ExceptionStatus.java,7\5\75aa21739be317b63f4d986055b2244280c83f51
+á
+Wsrc/test/java/ro/unibuc/fmi/ppcnewsletterproject/NewsletterProjectApplicationTests.java,3\8\381d0981d022f32066c7de782e047344a1b51ebb
+A
+webpack.config.js,d\5\d5595158cc48f9bf3e51b06f6e6805a8fd2d6262
+B
+src/main/js/app.js,c\2\c2aa2718928345459e4028f57c0bb332f6efad85
+Å
+Qsrc/main/java/ro/unibuc/fmi/ppcnewsletterproject/frontend/HomePageController.java,5\e\5e88be3925078baaff84dbdff4c73fd4f058b40b
+C
+src/main/js/app.css,5\c\5c63565fd5ec9caa7c55d9535627f49c3e95d018

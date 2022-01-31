@@ -6,8 +6,8 @@ spring.datasource.password=sa
 spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.PostgreSQLDialect
 spring.jpa.properties.hibernate.format_sql=true
 spring.jpa.open-in-view=false
-spring.jpa.show-sql=true
-spring.jpa.hibernate.ddl-auto=update
+spring.jpa.show-sql=false
+spring.jpa.hibernate.ddl-auto=create-drop
 ## Quartz
 spring.quartz.scheduler-name=newsletter_quartz_scheduler
 spring.quartz.job-store-type=jdbc
@@ -22,24 +22,21 @@ spring.quartz.properties.org.quartz.threadPool.threadPriority=5
 spring.quartz.properties.org.quartz.jobStore.isClustered=true
 spring.quartz.properties.org.quartz.jobStore.clusterCheckinInterval=20000
 spring.quartz.properties.org.quartz.jobStore.misfireThreshold=60000
-spring.quartz.jdbc.initialize-schema=never
+spring.quartz.jdbc.initialize-schema=always
 ##
 server.port=8080
-server.error.include-message=always
-
+server.error.include-message=never
 # Producer properties
 spring.kafka.producer.bootstrap-servers=localhost:29092
 spring.kafka.producer.key-serializer=org.apache.kafka.common.serialization.StringSerializer
-spring.kafka.producer.value-serializer=org.apache.kafka.common.serialization.StringSerializer
-spring.kafka.producer.group-id=ppc
-topic.name.producer=topic.newsletter
-
-# Producer properties
+spring.kafka.producer.value-serializer=org.springframework.kafka.support.serializer.JsonSerializer
+kafka.topic=topic.newsletter
+# Consumer properties
 spring.kafka.consumer.bootstrap-servers=localhost:29092
-spring.kafka.consumer.key-serializer=org.apache.kafka.common.serialization.StringSerializer
-spring.kafka.consumer.value-serializer=org.apache.kafka.common.serialization.StringSerializer
 spring.kafka.consumer.group-id=ppc
-topic.name.consumer=topic.newsletter
+##
+newsletter.loadbalancing.threads=10
+newsletter.loadbalancing.task.multiplier=1
 
 #GMail Properties
 spring.mail.host=smtp.gmail.com
